@@ -6,7 +6,7 @@
 void ft_putnumber(int n);
 
 /**
- * Swap to numbers 
+ * Swap two numbers 
  */
 void swap(int *a, int *b)
 {
@@ -31,13 +31,10 @@ void log_value(int a[])
  */
 void write_value(int a[], int perms[24][4], int counter)
 {
-    static int incrementer = 0;
     perms[counter][0] = a[0];
     perms[counter][1] = a[1];
     perms[counter][2] = a[2];
     perms[counter][3] = a[3];
-    // log_value(perms[incrementer]);
-    incrementer++;
 }
 
 /**
@@ -57,7 +54,6 @@ int heap_permutation(int a[], int size, int n, int perms[24][4])
 {
     static int counter = 0;
     int i;
-    
 
     if (size == 1) {
         write_value(a, perms, counter);
@@ -84,29 +80,58 @@ int heap_permutation(int a[], int size, int n, int perms[24][4])
 int *shuffle(int a[], int size)
 {
     int count = factorial(size);
-    int r = rand() % (count - 1);
+    int r = arc4random() % (count - 1);
     static int perms[24][4];
     int* selected = malloc(sizeof(int*));
 
     heap_permutation(a, size, size, perms);
-    log_value(perms[r]);
     selected = perms[r];
     
     return selected;
 }
 
-void setup_random()
+/**
+ * Check if is sorted ascending
+ */
+int check_sorted(int a[], int size) {
+    int i = 0;
+    int sorted = 1;
+    int highest = a[0];
+
+    while(i < (size - 1))
+    {
+        if (highest < a[i + 1])
+            highest = a[i + 1];
+        else
+        {
+            sorted = 0;
+            return sorted;
+        }
+        i++;
+    }
+    return sorted;
+}
+
+int *bogosort(int a[], int size, int sorted[4])
 {
-    time_t t;
-    srand((unsigned) time(&t));
+    int *rand = shuffle(a, 4);
+    if (check_sorted(rand, 4) == 0)
+        bogosort(rand, 4, sorted);
+    else
+    {
+        sorted[0] = rand[0];
+        sorted[1] = rand[1];
+        sorted[2] = rand[2];
+        sorted[3] = rand[3];
+    }
 }
 
 int main()
 {
-    int a[4] = {4,3,2,1};
-
-    setup_random();
-    shuffle(a, 4);
-    // int r = rand() % 24;
+    int i = 0;
+    int a[4] = {5,1,3,4};
+    int sorted[4];
+    bogosort(a, 4, sorted);
+    log_value(sorted);
     return 0;
 }
