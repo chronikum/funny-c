@@ -17,7 +17,9 @@ void swap(int *a, int *b)
 	*b = tmp;
 }
 
-
+/**
+ * Simple logger for an array
+ */
 void log_value(int a[])
 {
     write(1, "\n", 1);
