@@ -114,7 +114,10 @@ int check_sorted(int a[], int size) {
     return sorted;
 }
 
-int *bogosort(int a[], int size, int sorted[4])
+/**
+ * "Sorts" the array
+ */
+void bogosort(int a[], int size, int sorted[4])
 {
     int *rand = shuffle(a, 4);
     if (check_sorted(rand, 4) == 0)
