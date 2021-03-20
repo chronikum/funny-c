@@ -7,3 +7,5 @@ Done so far:
 
   - bogosort /bogosort
   - get xth prime number /prime
+  - Recursive power
+  
