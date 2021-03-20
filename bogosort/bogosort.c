@@ -2,6 +2,15 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+/**
+ *  BOGOSORT
+ * 
+ * The "superior" "sorting" algorithm, implemented in c.
+ * 
+ * I tried not using too many libraries, but i did not find an super easy way to implement an own random algorithm.
+ * This is probably the next project.
+ * 
+ */
 
 void ft_putnumber(int n);
 
@@ -85,7 +94,6 @@ int *shuffle(int a[], int size)
     int r = arc4random() % (count - 1);
     static int perms[24][4];
     int* selected = malloc(sizeof(int*));
-
     heap_permutation(a, size, size, perms);
     selected = perms[r];
     
@@ -102,7 +110,7 @@ int check_sorted(int a[], int size) {
 
     while(i < (size - 1))
     {
-        if (highest < a[i + 1])
+        if (highest <= a[i + 1])
             highest = a[i + 1];
         else
         {
@@ -134,7 +142,7 @@ void bogosort(int a[], int size, int sorted[4])
 int main()
 {
     int i = 0;
-    int a[4] = {5,1,3,4};
+    int a[4] = {5,2,1,4};
     int sorted[4];
     bogosort(a, 4, sorted);
     log_value(sorted);
