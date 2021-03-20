@@ -1,22 +1,6 @@
 #include <unistd.h>
 
-int main()
-{
-    int a[4] = {1,5,3,7};
-
-}
-
-
-void generate_all_permutations(int a[])
-{
-    int n = sizeof a / sizeof a[0];
-    heap_permutation(a, n, n);
-}
-
-void write_value()
-{
-
-}
+void ft_putnumber(int n);
 
 /**
  * Swap to numbers 
@@ -25,10 +9,21 @@ void swap(int *a, int *b)
 {
 	int tmp;
 
-	*a = tmp;
-	tmp = *b;
-	*b = *a;
-	*a = tmp;
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
+}
+
+/**
+ * a is the set, n is the size of the set
+ */
+void write_value(int a[], int n)
+{
+    write(1, "\n", 1);
+    ft_putnumber(a[0]);
+    ft_putnumber(a[1]);
+    ft_putnumber(a[2]);
+    ft_putnumber(a[3]);
 }
 
 /**
@@ -37,18 +32,42 @@ void swap(int *a, int *b)
  * size - size
  * n - size
  */
-void heap_permutation(int a[], int size, int n)
+int heap_permutation(int a[], int size, int n)
 {
+    static int counter = 0;
+    int i;
+
     if (size == 1) {
+        counter++;
         write_value(a, n);
-        return;
+        ft_putnumber(counter);
+        write(1, "\n", 1);
+        return 1;
     }
  
-    for (int i = 0; i < size; i++) {
+    i = 0;
+    while (i < size) {
         heap_permutation(a, size - 1, n);
         if (size % 2 == 1)
-            swap(a[0], a[size - 1]);
+            swap(&a[0], &a[size - 1]);
         else
-            swap(a[i], a[size - 1]);
+            swap(&a[i], &a[size - 1]);
+        i++;
     }
+}
+
+/**
+ * Generate all permutations
+ */
+void generate_all_permutations(int a[])
+{
+    int n = sizeof a / sizeof a[0];
+    heap_permutation(a, 4, 4);
+}
+
+int main()
+{
+    int a[4] = {1,2,3,4};
+    generate_all_permutations(a);
+    return 0;
 }
